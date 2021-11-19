@@ -7,6 +7,7 @@ services:
     volumes:
       - backstop-db:/data/rethinkdb_data
     ports:
+      - "5050:8080"
       - "29015:29015"
       - "28015:28015"
     networks:
@@ -16,6 +17,8 @@ services:
     build: ./data_domain/
     volumes:
       - ./data_domain:/app/data_domain
+    ports:
+      - "6040:6040"
     networks:
       - backstop
     environment:
@@ -26,6 +29,8 @@ services:
     build: ./calculator/
     volumes:
       - ./calculator:/app/retriever
+    ports:
+      - "4060:4060"
     networks:
       - backstop
     environment:
@@ -38,6 +43,8 @@ services:
       - ./edge:/app
     networks:
       - backstop
+    ports:
+      - "8020:8020"
     environment:
       - DD_HOST=data_domain
       - DD_PORT=6040
@@ -53,6 +60,8 @@ services:
       - /app/node_modules
     depends_on: 
       - edge
+    ports:
+      - 1234
     networks:
       - backstop
     environment:
