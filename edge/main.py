@@ -34,8 +34,8 @@ dd_host = os.getenv("DD_HOST")
 dd_port = os.getenv("DD_PORT")
 dd_uri = os.getenv("DD_URI")
 
-cal_host = os.getenv("cal_HOST")
-cal_port = os.getenv("cal_PORT")
+cal_host = os.getenv("CAL_HOST")
+cal_port = os.getenv("CAL_PORT")
 
 dd_url = "http://" + dd_host + ":" + dd_port
 cal_url = "http://" + cal_host + ":" + cal_port
