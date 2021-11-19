@@ -28,7 +28,7 @@ services:
   calculator:
     build: ./calculator/
     volumes:
-      - ./calculator:/app/retriever
+      - ./calculator:/app/calculator
     ports:
       - "4060:4060"
     networks:
@@ -61,7 +61,7 @@ services:
     depends_on: 
       - edge
     ports:
-      - 1234
+      - "1234:1234"
     networks:
       - backstop
     environment:

@@ -43,7 +43,7 @@ def create_database():
     return True
 
 def init():
-    create_databases()
+    create_database()
 
 if __name__ == "__main__":
     create_database()

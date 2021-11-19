@@ -7,10 +7,9 @@
   },
   "source": "pages/dashboard.html",
   "scripts": {
-    "open-app": "gulp open-app",
+    "open-app": "parcel",
     "start": "parcel",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "gulp-watch"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
