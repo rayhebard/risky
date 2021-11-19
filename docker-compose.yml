@@ -1,0 +1,75 @@
+---
+version: "3.8"
+
+services:
+  rethinkdb:
+    build: ./rethinkdb/
+    volumes:
+      - backstop-db:/data/rethinkdb_data
+    ports:
+      - "29015:29015"
+      - "28015:28015"
+    networks:
+      - backstop
+    restart: on-failure
+  data_domain:
+    image: "${DOCKER_BASE_PATH-local_dev}/backstop_dd:${DOCKER_TAG-local_dev}"
+    build: ./data_domain/
+    volumes:
+      - ./data_domain:/app/data_domain
+    depends_on:
+      - logger
+    networks:
+      - backstop
+    environment:
+      - DB_HOST=rethinkdb
+      - DB_PORT=28015
+    restart: on-failure
+  calculator:
+    build: ./calculator/
+    volumes:
+      - ./calculator:/app/retriever
+    networks:
+      - backstop
+    environment:
+      - DD_HOST=data_domain
+      - DD_PORT=6040
+    restart: on-failure
+  edge:
+    build: ./edge/
+    volumes:
+      - ./edge:/app
+    depends_on:
+      - backstop_dd
+      - retriever
+      - logger
+    networks:
+      - backstop
+    environment:
+      - DD_HOST
+      - DD_PORT
+      - CAL_HOST
+      - CAL_PORT
+    restart: unless-stopped
+    links:
+      - data_domain
+  frontend:
+    build: ./frontend/
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on: 
+      - edge
+    networks:
+      - backstop
+    environment:
+      - EDGE_HOST
+      - EDGE_PORT
+    restart: unless-stopped
+    links:
+      - edge
+    command: "npm run dev"
+networks:
+  backstop:
+volumes:
+  backstop-db:
